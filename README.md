@@ -1,2 +1,2 @@
-# api-v3
-Oneway.vn API V3.0.0
+# api-v1
+Oneway News API V1.0
