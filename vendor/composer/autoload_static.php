@@ -4,22 +4,29 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit765be533718409a5bcff302896b3b488
+class ComposerStaticInitfc615a23ab3bcdd71b4cc3cc539c7c2a
 {
     public static $prefixesPsr0 = array (
-        'M' => 
+        'S' => 
         array (
-            'Monolog' => 
+            'Slim' => 
             array (
-                0 => __DIR__ . '/..' . '/monolog/monolog/src',
+                0 => __DIR__ . '/..' . '/slim/slim',
             ),
         ),
+    );
+
+    public static $classMap = array (
+        'getID3' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/getid3.php',
+        'getid3_exception' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/getid3.php',
+        'getid3_handler' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/getid3.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixesPsr0 = ComposerStaticInit765be533718409a5bcff302896b3b488::$prefixesPsr0;
+            $loader->prefixesPsr0 = ComposerStaticInitfc615a23ab3bcdd71b4cc3cc539c7c2a::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitfc615a23ab3bcdd71b4cc3cc539c7c2a::$classMap;
 
         }, null, ClassLoader::class);
     }

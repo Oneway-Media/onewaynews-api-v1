@@ -1,5 +1,16 @@
 {
+    "name": "onewaymediavn/onewaynews-api-v1",
+    "description": "Oneway News ver 1.0",
     "require": {
-        "monolog/monolog": "1.0.*"
-    }
+        "slim/slim": "^2.6",
+		"james-heinrich/getid3": "^1.9.9"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oneway Media VN",
+            "email": "onewaymediavn@gmail.com"
+        }
+    ],
+    "minimum-stability": "beta"
 }
