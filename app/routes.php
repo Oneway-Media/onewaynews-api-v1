@@ -24,13 +24,13 @@ $router->get('/', function () { echo "<h1>Hello Oneway News API!</h1>"; });
 /*------------------------------Tin Tuc-------------------------------*/
 
 /*
-*   http://test.oneway.vn/api/api-v3/index.php/category-news
+*   http://test.oneway.vn/api/index.php/category-news
 */
 $router->get('/category-news', function () use ($News) {
     json( $News->category() );
 });
 /*
-*   http://test.oneway.vn/api/api-v3/index.php/category-news/:id|slug
+*   http://test.oneway.vn/api/index.php/category-news/:id|slug
 */
 $router->get('/category-news/:id', function ($id) use ($News) {
     json( $News->category($id) );
