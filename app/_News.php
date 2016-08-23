@@ -459,14 +459,14 @@ class News {
 	
     // Count all news.
     public static function countAll() {
-        $allPosts = wp_count_posts('news');
+        $allPosts = wp_count_posts('post');
         return $allPosts->publish;
     }
 
     // Count news by category.
     public static function countCate($id) {
 
-        $taxonomy = "news_category"; // can be category, post_tag, or custom taxonomy name
+        $taxonomy = "category"; // can be category, post_tag, or custom taxonomy name
          
         if( is_numeric($id) ) {
             // Using Term ID
