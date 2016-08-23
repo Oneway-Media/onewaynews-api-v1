@@ -238,7 +238,7 @@ class News {
         // Switch $id to ID from slug
         if( !is_numeric($id) ) {
             // get id from slug
-            $post = get_page_by_path($id, OBJECT, 'news');
+            $post = get_page_by_path($id, OBJECT, 'post');
             $id = $post->ID;
         };
 
@@ -269,9 +269,10 @@ class News {
 
 
         //Get news random from category
-        $cat = wp_get_post_terms($id,'news_category');
+        $cat = wp_get_post_terms($id,'category');
         $idcat = $cat[0]->term_id;
         $random_CateNews = self::listNewsCate($idcat,$offset,$other_num);
+        // var_dump($random_CateNews);exit();
         $res = array_merge($res,$random_CateNews);
 
         //Get news random from news
@@ -301,8 +302,8 @@ class News {
                 $p['thumbnail'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'thumbnail' )[0];
                 $p['cover'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'large' )[0];
                 $p['view'] = intval(get_post_meta( $p['id'], '_count-views_all', true ));
-                $p['like'] = intval(get_post_meta( $p['id'], 'oneway_like', true ));
-                $p['share'] = intval(get_post_meta( $p['id'], 'oneway_share', true ));
+                $p['like'] = intval(get_post_meta( $p['id'], 'news.oneway_like', true ));
+                $p['share'] = intval(get_post_meta( $p['id'], 'news.oneway_share', true ));
                 $p['comment'] = intval(wp_count_comments($p['id'])->approved);
                 $output[] = $p;
             }
