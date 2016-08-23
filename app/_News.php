@@ -117,7 +117,7 @@ class News {
 
         $arg = [
             'post_status' => 'publish',
-            'post_type' => 'news',
+            'post_type' => 'post',
             'offset' => $offset,
             'posts_per_page' => $limit,                
         ];
