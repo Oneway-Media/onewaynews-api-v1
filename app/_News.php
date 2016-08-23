@@ -40,7 +40,7 @@ class News {
         if( $category === null ) { // Search all            
             $raw = new WP_Query([
                 'post_status' => 'publish',
-                'post_type' => 'news',
+                'post_type' => 'post',
                 'posts_per_page' => LIMIT,
                 's' => $keyword                
             ]);
@@ -52,7 +52,7 @@ class News {
                     'post_type' => 'news',
                     'tax_query' => [
                         [
-                            'taxonomy' => 'news_category',
+                            'taxonomy' => 'category',
                             'field'    => 'term_id',
                             'terms'    => $category,
                         ]
@@ -64,10 +64,10 @@ class News {
                 // Using Term Slug
                 $raw = new WP_Query([
                     'post_status' => 'publish',
-                    'post_type' => 'news',
+                    'post_type' => 'post',
                     'tax_query' => [
                         [
-                            'taxonomy' => 'news_category',
+                            'taxonomy' => 'category',
                             'field'    => 'slug',
                             'terms'    => $category,
                         ]
@@ -85,8 +85,8 @@ class News {
                 $p['thumbnail'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'thumbnail' )[0];
                 $p['cover'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'large' )[0];
                 $p['view'] = intval(get_post_meta( $p['id'], '_count-views_all', true ));
-                $p['like'] = intval(get_post_meta( $p['id'], 'oneway_like', true ));
-                $p['share'] = intval(get_post_meta( $p['id'], 'oneway_share', true ));
+                $p['like'] = intval(get_post_meta( $p['id'], 'news.oneway_like', true ));
+                $p['share'] = intval(get_post_meta( $p['id'], 'news.oneway_share', true ));
                 $p['comment'] = intval(wp_count_comments($p['id'])->approved);
                 $output[] = $p;
             }
