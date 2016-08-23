@@ -493,7 +493,7 @@ class News {
 
         $arg = [
             'post_status' => 'publish',
-            'post_type' => 'news',
+            'post_type' => 'post',
             'posts_per_page' => LIMIT,  
             'orderby'   => 'rand'
         ];
@@ -507,8 +507,8 @@ class News {
                 $p['thumbnail'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'thumbnail' )[0];
                 $p['cover'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'large' )[0];
                 $p['view'] = intval(get_post_meta( $p['id'], '_count-views_all', true ));
-                $p['like'] = intval(get_post_meta( $p['id'], 'oneway_like', true ));
-                $p['share'] = intval(get_post_meta( $p['id'], 'oneway_share', true ));
+                $p['like'] = intval(get_post_meta( $p['id'], 'news.oneway_like', true ));
+                $p['share'] = intval(get_post_meta( $p['id'], 'news.oneway_share', true ));
                 $p['comment'] = intval(wp_count_comments($p['id'])->approved);
                 $output[] = $p;
             }
