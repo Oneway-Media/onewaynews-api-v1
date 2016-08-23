@@ -40,7 +40,7 @@ class News {
         if( $category === null ) { // Search all            
             $raw = new WP_Query([
                 'post_status' => 'publish',
-                'post_type' => 'news',
+                'post_type' => 'post',
                 'posts_per_page' => LIMIT,
                 's' => $keyword                
             ]);
@@ -52,7 +52,7 @@ class News {
                     'post_type' => 'news',
                     'tax_query' => [
                         [
-                            'taxonomy' => 'news_category',
+                            'taxonomy' => 'category',
                             'field'    => 'term_id',
                             'terms'    => $category,
                         ]
@@ -64,10 +64,10 @@ class News {
                 // Using Term Slug
                 $raw = new WP_Query([
                     'post_status' => 'publish',
-                    'post_type' => 'news',
+                    'post_type' => 'post',
                     'tax_query' => [
                         [
-                            'taxonomy' => 'news_category',
+                            'taxonomy' => 'category',
                             'field'    => 'slug',
                             'terms'    => $category,
                         ]
@@ -85,8 +85,8 @@ class News {
                 $p['thumbnail'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'thumbnail' )[0];
                 $p['cover'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'large' )[0];
                 $p['view'] = intval(get_post_meta( $p['id'], '_count-views_all', true ));
-                $p['like'] = intval(get_post_meta( $p['id'], 'oneway_like', true ));
-                $p['share'] = intval(get_post_meta( $p['id'], 'oneway_share', true ));
+                $p['like'] = intval(get_post_meta( $p['id'], 'news.oneway_like', true ));
+                $p['share'] = intval(get_post_meta( $p['id'], 'news.oneway_share', true ));
                 $p['comment'] = intval(wp_count_comments($p['id'])->approved);
                 $output[] = $p;
             }
@@ -117,7 +117,7 @@ class News {
 
         $arg = [
             'post_status' => 'publish',
-            'post_type' => 'news',
+            'post_type' => 'post',
             'offset' => $offset,
             'posts_per_page' => $limit,                
         ];
@@ -141,8 +141,8 @@ class News {
                 $p['thumbnail'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'thumbnail' )[0];
                 $p['cover'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'large' )[0];
                 $p['view'] = intval(get_post_meta( $p['id'], '_count-views_all', true ));
-                $p['like'] = intval(get_post_meta( $p['id'], 'oneway_like', true ));
-                $p['share'] = intval(get_post_meta( $p['id'], 'oneway_share', true ));
+                $p['like'] = intval(get_post_meta( $p['id'], 'news.oneway_like', true ));
+                $p['share'] = intval(get_post_meta( $p['id'], 'news.oneway_share', true ));
                 $p['comment'] = intval(wp_count_comments($p['id'])->approved);
                 $output[] = $p;
             }
@@ -173,7 +173,7 @@ class News {
 
         $arg = [
             'post_status' => 'publish',
-            'post_type' => 'news',
+            'post_type' => 'post',
             'offset' => $offset,
             'posts_per_page' => $limit,             
         ];
@@ -194,7 +194,7 @@ class News {
             // By ID
             $arg['tax_query'] = [
                 [
-                    'taxonomy' => 'news_category',
+                    'taxonomy' => 'category',
                     'field'    => 'term_id',
                     'terms'    => $id,
                 ]
@@ -203,7 +203,7 @@ class News {
             // By Slug
             $arg['tax_query'] = [
                 [
-                    'taxonomy' => 'news_category',
+                    'taxonomy' => 'category',
                     'field'    => 'slug',
                     'terms'    => $id,
                 ]
@@ -219,8 +219,8 @@ class News {
                 $p['thumbnail'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'thumbnail' )[0];
                 $p['cover'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'large' )[0];
                 $p['view'] = intval(get_post_meta( $p['id'], '_count-views_all', true ));
-                $p['like'] = intval(get_post_meta( $p['id'], 'oneway_like', true ));
-                $p['share'] = intval(get_post_meta( $p['id'], 'oneway_share', true ));
+                $p['like'] = intval(get_post_meta( $p['id'], 'news.oneway_like', true ));
+                $p['share'] = intval(get_post_meta( $p['id'], 'news.oneway_share', true ));
                 $p['comment'] = intval(wp_count_comments($p['id'])->approved);
                 $output[] = $p;
             }
@@ -238,7 +238,7 @@ class News {
         // Switch $id to ID from slug
         if( !is_numeric($id) ) {
             // get id from slug
-            $post = get_page_by_path($id, OBJECT, 'news');
+            $post = get_page_by_path($id, OBJECT, 'post');
             $id = $post->ID;
         };
 
@@ -269,9 +269,10 @@ class News {
 
 
         //Get news random from category
-        $cat = wp_get_post_terms($id,'news_category');
+        $cat = wp_get_post_terms($id,'category');
         $idcat = $cat[0]->term_id;
         $random_CateNews = self::listNewsCate($idcat,$offset,$other_num);
+        // var_dump($random_CateNews);exit();
         $res = array_merge($res,$random_CateNews);
 
         //Get news random from news
@@ -301,8 +302,8 @@ class News {
                 $p['thumbnail'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'thumbnail' )[0];
                 $p['cover'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'large' )[0];
                 $p['view'] = intval(get_post_meta( $p['id'], '_count-views_all', true ));
-                $p['like'] = intval(get_post_meta( $p['id'], 'oneway_like', true ));
-                $p['share'] = intval(get_post_meta( $p['id'], 'oneway_share', true ));
+                $p['like'] = intval(get_post_meta( $p['id'], 'news.oneway_like', true ));
+                $p['share'] = intval(get_post_meta( $p['id'], 'news.oneway_share', true ));
                 $p['comment'] = intval(wp_count_comments($p['id'])->approved);
                 $output[] = $p;
             }
@@ -321,7 +322,7 @@ class News {
         // Switch $id to ID from slug
         if( !is_numeric($id) ) {
             // get posst from slug
-            $post = get_page_by_path($id, OBJECT, 'news');
+            $post = get_page_by_path($id, OBJECT, 'post');
             
         } else {
             //get post from ID
@@ -359,8 +360,8 @@ class News {
                     //$p['cover'] = $img['1'];
                     $p['cover'] = wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'full' )[0];
                     $p['view'] = intval(get_post_meta( $p['id'], '_count-views_all', true ));
-                    $p['like'] = intval(get_post_meta( $p['id'], 'oneway_like', true ));
-                    $p['share'] = intval(get_post_meta( $p['id'], 'oneway_share', true ));
+                    $p['like'] = intval(get_post_meta( $p['id'], 'news.oneway_like', true ));
+                    $p['share'] = intval(get_post_meta( $p['id'], 'news.oneway_share', true ));
                     $p['comment'] = intval(wp_count_comments($p['id'])->approved);
                     
                     // Filter the content
@@ -375,7 +376,7 @@ class News {
                 return [];
             }
         } else if ($fields == 'extra')  {
-            $cmts = get_comments( 'post_id='.$id);
+            $cmts = get_comments( 'ID='.$id);
             $extra_fields = [
                 'id' => 'comment_ID',
                 'author_name' => 'comment_author',
@@ -458,14 +459,14 @@ class News {
 	
     // Count all news.
     public static function countAll() {
-        $allPosts = wp_count_posts('news');
+        $allPosts = wp_count_posts('post');
         return $allPosts->publish;
     }
 
     // Count news by category.
     public static function countCate($id) {
 
-        $taxonomy = "news_category"; // can be category, post_tag, or custom taxonomy name
+        $taxonomy = "category"; // can be category, post_tag, or custom taxonomy name
          
         if( is_numeric($id) ) {
             // Using Term ID
@@ -492,7 +493,7 @@ class News {
 
         $arg = [
             'post_status' => 'publish',
-            'post_type' => 'news',
+            'post_type' => 'post',
             'posts_per_page' => LIMIT,  
             'orderby'   => 'rand'
         ];
@@ -506,8 +507,8 @@ class News {
                 $p['thumbnail'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'thumbnail' )[0];
                 $p['cover'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'large' )[0];
                 $p['view'] = intval(get_post_meta( $p['id'], '_count-views_all', true ));
-                $p['like'] = intval(get_post_meta( $p['id'], 'oneway_like', true ));
-                $p['share'] = intval(get_post_meta( $p['id'], 'oneway_share', true ));
+                $p['like'] = intval(get_post_meta( $p['id'], 'news.oneway_like', true ));
+                $p['share'] = intval(get_post_meta( $p['id'], 'news.oneway_share', true ));
                 $p['comment'] = intval(wp_count_comments($p['id'])->approved);
                 $output[] = $p;
             }
@@ -536,7 +537,7 @@ class News {
 
         $arg = [
             'post_status' => 'publish',
-            'post_type' => 'news',
+            'post_type' => 'post',
             'offset' => $offset,
             'posts_per_page' => $limit,  
             'orderby'   => 'rand'
@@ -547,7 +548,7 @@ class News {
             // By ID
             $arg['tax_query'] = [
                 [
-                    'taxonomy' => 'news_category',
+                    'taxonomy' => 'category',
                     'field'    => 'term_id',
                     'terms'    => $id,
                 ]
@@ -556,7 +557,7 @@ class News {
             // By Slug
             $arg['tax_query'] = [
                 [
-                    'taxonomy' => 'news_category',
+                    'taxonomy' => 'category',
                     'field'    => 'slug',
                     'terms'    => $id,
                 ]
@@ -572,8 +573,8 @@ class News {
                 $p['thumbnail'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'thumbnail' )[0];
                 $p['cover'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'large' )[0];
                 $p['view'] = intval(get_post_meta( $p['id'], '_count-views_all', true ));
-                $p['like'] = intval(get_post_meta( $p['id'], 'oneway_like', true ));
-                $p['share'] = intval(get_post_meta( $p['id'], 'oneway_share', true ));
+                $p['like'] = intval(get_post_meta( $p['id'], 'news.oneway_like', true ));
+                $p['share'] = intval(get_post_meta( $p['id'], 'news.oneway_share', true ));
                 $p['comment'] = intval(wp_count_comments($p['id'])->approved);
                 $output[] = $p;
             }

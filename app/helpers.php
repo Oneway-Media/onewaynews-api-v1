@@ -39,8 +39,11 @@ function find($collection = [], $field = null, $equal = null) {
     }
     
     foreach($collection as $col) {
-        if( get_object_vars($col)[$field] === $equal ) {
-            $output[] = $col;
+        if(is_numeric($equal)) {
+            $equal = intval($equal);
+            if( get_object_vars($col)[$field] === $equal ) {
+                $output[] = $col;
+            }
         }
     }
     
