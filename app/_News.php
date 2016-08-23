@@ -20,6 +20,7 @@ class News {
         } else {                                         
             if( is_numeric($id) ) {
                 return sanitize( find($categories, 'cat_ID', $id), $fields); // By ID
+                
             } else {
                 return sanitize( find($categories, 'slug', $id), $fields);// By Slug
             }
