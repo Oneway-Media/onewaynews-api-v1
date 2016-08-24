@@ -43,7 +43,7 @@ $router->get('/category-news/:id', function ($id) use ($News) {
 $router->get('/news/:from', function ($from) use ($News) {
     json( $News->listNews($from) );
 });
-$router->get('/news/:from/:sort', function ($from,$limit) use ($News) {
+$router->get('/news/:from/:limit', function ($from,$limit) use ($News) {
     json ($News->listNews($from,$limit));
 });
 $router->get('/news/:from/:limit/:sort', function ($from, $limit, $sort) use ($News) {
