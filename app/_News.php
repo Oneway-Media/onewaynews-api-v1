@@ -111,7 +111,7 @@ class News {
         ];
 
         if ($from > 0) {$from = $from - 1;} else if ($from <= 0) {$from = 0;};
-        if ($limit == null) { $limit = LIMIT; };
+        if ($limit == null) { $limit = LIMIT; } else {$limit = intval($limit);}
         if ($sort == null) { $sort = 'new';};
 
         $offset = intval($from)*intval($limit);
