@@ -251,7 +251,7 @@ class News {
             $limit = LIMIT;
             $search_num = (int) ($limit/3) + ($limit%3);
         } else {
-            $search_num =  (int) ($limit/3) + ($limit%3);
+            $search_num =  (int) ($limit/3);
         }
 
         $other_num = ($limit - $search_num)/2;
