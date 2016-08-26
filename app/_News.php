@@ -157,7 +157,7 @@ class News {
 
 
     //Get list of news belong to specific category
-    public static function listNewsCate($id,$from,$limit = null, $sort=null) {
+    public static function listNewsCate($id,$from = null,$limit = null, $sort=null) {
         
         $fields = [
             'id' => 'ID',
