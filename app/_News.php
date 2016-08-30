@@ -157,7 +157,7 @@ class News {
 
 
     //Get list of news belong to specific category
-    public static function listNewsCate($id,$from,$limit = null, $sort=null) {
+    public static function listNewsCate($id,$from = null,$limit = null, $sort=null) {
         
         $fields = [
             'id' => 'ID',
@@ -251,7 +251,7 @@ class News {
             $limit = LIMIT;
             $search_num = (int) ($limit/3) + ($limit%3);
         } else {
-            $search_num =  (int) ($limit/3) + ($limit%3);
+            $search_num =  (int) ($limit/3);
         }
 
         $other_num = ($limit - $search_num)/2;
