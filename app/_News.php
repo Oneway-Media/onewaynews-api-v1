@@ -50,7 +50,7 @@ class News {
                 // Using Term ID
                 $raw = new WP_Query([
                     'post_status' => 'publish',
-                    'post_type' => 'news',
+                    'post_type' => 'post',
                     'tax_query' => [
                         [
                             'taxonomy' => 'category',
@@ -377,7 +377,7 @@ class News {
                 return [];
             }
         } else if ($fields == 'extra')  {
-            $cmts = get_comments( 'ID='.$id);
+            $cmts = get_comments( 'post_id='.$id);
             $extra_fields = [
                 'id' => 'comment_ID',
                 'author_name' => 'comment_author',
