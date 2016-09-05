@@ -141,6 +141,7 @@ class News {
             foreach($pre as $p) {
                 $p['thumbnail'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'thumbnail' )[0];
                 $p['thumbnail-med'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'medium' )[0];
+                $p['permalink'] = get_permalink($p['id']);
                 $p['cover'] =  wp_get_attachment_image_src( get_post_thumbnail_id( $p['id'] ), 'large' )[0];
                 $p['view'] = intval(get_post_meta( $p['id'], '_count-views_all', true ));
                 $p['like'] = intval(get_post_meta( $p['id'], 'oneway_like', true ));
